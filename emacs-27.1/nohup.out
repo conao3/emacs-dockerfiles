@@ -1,0 +1,24 @@
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.900: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.900: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.900: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.900: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.901: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035385): Gtk-CRITICAL **: 17:55:39.901: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_concrete_size: assertion 'default_width > 0' failed
+
+(emacs:1035480): Gtk-CRITICAL **: 17:55:53.604: _gtk_css_image_get_surface: assertion 'surface_width > 0' failed

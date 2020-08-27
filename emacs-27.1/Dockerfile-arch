@@ -1,0 +1,104 @@
+FROM archlinux:20200705
+
+MAINTAINER conao3
+
+RUN echo '# mirrorlist' > /etc/pacman.d/mirrorlist && \
+    echo 'Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist && \
+    echo 'Server = http://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist && \
+    ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    sed -ie 's/#Color/Color/' /etc/pacman.conf && \
+    sed -ie 's/#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf && \
+    pacman-key --init && \
+    pacman-key --populate archlinux && \
+    pacman -Syu --noconfirm
+
+##############################
+
+ARG USER=user
+ARG UID=1000
+ARG GID=1000
+ARG HOME=/home/${USER}
+ARG SHELL=/usr/sbin/bash
+
+RUN pacman -S sudo --noconfirm && \
+    groupadd -g ${GID} ${USER} && \
+    useradd -u ${UID} -g ${GID} -m -s ${SHELL} ${USER} && \
+    passwd -d ${USER} && \
+    echo "${USER} ALL=(ALL) ALL" >> /etc/sudoers && \
+    sed -ie 's/^Defaults\tenv_reset/# Defaults\tenv_reset/' /etc/sudoers && \
+    sed -ie 's/^Defaults\tsecure_path/# Defaults\tsecure_path/' /etc/sudoers
+
+##############################
+
+USER ${USER}
+WORKDIR ${HOME}
+
+ENV PATH=/home/user/.local/bin:$PATH
+ENV EDITOR=emacs
+ARG VERSION=27.1
+
+RUN mkdir -p ${HOME}/.local/work && \
+    cd ${HOME}/.local/work && \
+    curl -LO https://ftp.gnu.org/gnu/emacs/emacs-$VERSION.tar.gz && \
+    tar xf emacs-$VERSION.tar.gz
+
+RUN sudo pacman -S base-devel --noconfirm
+RUN sudo pacman -S man git --noconfirm
+RUN sudo pacman -S gtk3 --noconfirm
+RUN sudo pacman -S libxpm giflib --noconfirm
+RUN sudo pacman -S gpm libotf m17n-lib jansson --noconfirm
+
+RUN cd ${HOME}/.local/work/emacs-$VERSION && \
+    ./autogen.sh && \
+    ./configure --prefix=$HOME/.local && \
+    make -j && make install
+
+CMD ["bash"]
+
+# Configured for 'x86_64-pc-linux-gnu'.
+#   Where should the build process find the source code?    .
+#   What compiler should emacs be built with?               gcc -g3 -O2
+#   Should Emacs use the GNU version of malloc?             no
+#     (The GNU allocators don't work with this system configuration.)
+#   Should Emacs use a relocating allocator for buffers?    no
+#   Should Emacs use mmap(2) for buffer allocation?         no
+#   What window system should Emacs use?                    x11
+#   What toolkit should Emacs use?                          GTK3
+#   Where do we find X Windows header files?                Standard dirs
+#   Where do we find X Windows libraries?                   Standard dirs
+#   Does Emacs use -lXaw3d?                                 no
+#   Does Emacs use -lXpm?                                   yes
+#   Does Emacs use -ljpeg?                                  yes
+#   Does Emacs use -ltiff?                                  yes
+#   Does Emacs use a gif library?                           yes -lgif
+#   Does Emacs use a png library?                           yes -lpng16 -lz 
+#   Does Emacs use -lrsvg-2?                                yes
+#   Does Emacs use cairo?                                   no
+#   Does Emacs use -llcms2?                                 yes
+#   Does Emacs use imagemagick?                             no
+#   Does Emacs support sound?                               yes
+#   Does Emacs use -lgpm?                                   yes
+#   Does Emacs use -ldbus?                                  yes
+#   Does Emacs use -lgconf?                                 no
+#   Does Emacs use GSettings?                               yes
+#   Does Emacs use a file notification library?             yes -lglibc (inotify)
+#   Does Emacs use access control lists?                    yes -lacl
+#   Does Emacs use -lselinux?                               no
+#   Does Emacs use -lgnutls?                                yes
+#   Does Emacs use -lxml2?                                  yes
+#   Does Emacs use -lfreetype?                              yes
+#   Does Emacs use HarfBuzz?                                yes
+#   Does Emacs use -lm17n-flt?                              yes
+#   Does Emacs use -lotf?                                   yes
+#   Does Emacs use -lxft?                                   yes
+#   Does Emacs use -lsystemd?                               yes
+#   Does Emacs use -ljansson?                               yes
+#   Does Emacs use -lgmp?                                   yes
+#   Does Emacs directly use zlib?                           yes
+#   Does Emacs have dynamic modules support?                yes
+#   Does Emacs use toolkit scroll bars?                     yes
+#   Does Emacs support Xwidgets (requires gtk3)?            no
+#   Does Emacs have threading support in lisp?              yes
+#   Does Emacs support the portable dumper?                 yes
+#   Does Emacs support legacy unexec dumping?               no
+#   Which dumping strategy does Emacs use?                  pdumper
