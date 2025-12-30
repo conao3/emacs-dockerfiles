@@ -1,54 +1,92 @@
+#+title: emacs-dockerfiles
 #+author: conao3
-#+date: <2020-03-20 Fri>
 
-[[https://github.com/conao3/emacs-dockerfiles][https://raw.githubusercontent.com/conao3/files/master/blob/headers/png/emacs-dockerfiles.png]]
 [[https://github.com/conao3/emacs-dockerfiles/blob/master/LICENSE][https://img.shields.io/github/license/conao3/emacs-dockerfiles.svg?style=flat-square]]
 [[https://github.com/conao3/emacs-dockerfiles/releases][https://img.shields.io/github/tag/conao3/emacs-dockerfiles.svg?style=flat-square]]
-[[https://github.com/conao3/emacs-dockerfiles/actions][https://img.shields.io/badge/patreon-become%20a%20patron-orange.svg?logo=patreon&style=flat-square]]
-[[https://twitter.com/conao_3][https://img.shields.io/badge/twitter-@conao__3-blue.svg?logo=twitter&style=flat-square]]
-[[https://conao3-support.slack.com/join/shared_invite/enQtNjUzMDMxODcyMjE1LWUwMjhiNTU3Yjk3ODIwNzAxMTgwOTkxNmJiN2M4OTZkMWY0NjI4ZTg4MTVlNzcwNDY2ZjVjYmRiZmJjZDU4MDE][https://img.shields.io/badge/chat-on_slack-blue.svg?logo=slack&style=flat-square]]
 
-* Table of Contents
-- [[#description][Description]]
-- [[#install][Install]]
-- [[#usage][Usage]]
-- [[#information][Information]]
-  - [[#community][Community]]
-  - [[#contribution][Contribution]]
-  - [[#license][License]]
-  - [[#author][Author]]
+* Overview
 
-* Description
-Dockerfile collection for Emacs 27.1 on many Unix distribution.
+A collection of Dockerfiles for building Emacs 27.1 from source on various Linux distributions.
 
-* Install
+This project provides ready-to-use Docker configurations for compiling Emacs with full feature support, including native JSON parsing, dynamic modules, and GTK3 integration.
 
-* Usage
+** Supported Distributions
 
-* Information
-** Community
-All feedback and suggestions are welcome!
+- Ubuntu 20.04
+- Debian
+- CentOS
+- Arch Linux
 
-You can use github issues, but you can also use [[https://conao3-support.slack.com/join/shared_invite/enQtNjUzMDMxODcyMjE1LWUwMjhiNTU3Yjk3ODIwNzAxMTgwOTkxNmJiN2M4OTZkMWY0NjI4ZTg4MTVlNzcwNDY2ZjVjYmRiZmJjZDU4MDE][Slack]]
-if you want a more casual conversation.
+* Getting Started
 
-** Contribution
-We welcome PR!
+** Prerequisites
 
-** Settings
-We recommend to include this config in your init.el.
+- Docker installed on your system
+- Basic familiarity with Docker commands
+
+** Building an Image
+
+Clone the repository and build the image for your preferred distribution:
+
+#+begin_src shell
+git clone https://github.com/conao3/emacs-dockerfiles.git
+cd emacs-dockerfiles
+
+# Build for Ubuntu
+docker build -t emacs:27.1-ubuntu -f emacs-27.1/Dockerfile-ubuntu .
+
+# Build for Debian
+docker build -t emacs:27.1-debian -f emacs-27.1/Dockerfile-debian .
+
+# Build for CentOS
+docker build -t emacs:27.1-centos -f emacs-27.1/Dockerfile-centos .
+
+# Build for Arch Linux
+docker build -t emacs:27.1-arch -f emacs-27.1/Dockerfile-arch .
+#+end_src
+
+** Running the Container
+
+#+begin_src shell
+docker run -it emacs:27.1-ubuntu
+#+end_src
+
+* Build Configuration
+
+The Emacs builds are configured with the following features enabled:
+
+- GTK3 toolkit
+- Native JSON support (libjansson)
+- Dynamic module support
+- HarfBuzz text shaping
+- GnuTLS encryption
+- XML parsing
+- Image format support (PNG, JPEG, TIFF, GIF, SVG)
+- D-Bus integration
+- System notifications via inotify
+- Portable dumper
+
+* Editor Configuration
+
+For editing Dockerfiles in Emacs, consider adding this configuration:
 
 #+begin_src emacs-lisp
-(leaf dockerfile-mode
+(use-package dockerfile-mode
   :mode "Dockerfile-[^/]*\\'")
 #+end_src
 
-** License
-#+begin_example
-  MIT License
-  Copyright (c) Naoya Yamashita - https://conao3.com
-  https://github.com/conao3/emacs-dockerfiles/blob/master/LICENSE
-#+end_example
+* Contributing
 
-** Author
-- Naoya Yamashita ([[https://github.com/conao3][conao3]])
+Contributions are welcome. Please feel free to submit issues and pull requests.
+
+* License
+
+MIT License
+
+Copyright (c) Naoya Yamashita
+
+See [[https://github.com/conao3/emacs-dockerfiles/blob/master/LICENSE][LICENSE]] for details.
+
+* Author
+
+Naoya Yamashita ([[https://github.com/conao3][conao3]])
